@@ -19,15 +19,6 @@ class HomePageTemp extends StatelessWidget {
 }
 
 Widget _lista() {
-  /* print(menuProvider.opciones);
-     menuProvider.loadData().then((opciones) {
-     print('_lista: ');
-     print(opciones);
-  });
-  return ListView(
-    children: _listaItems(),
-  );*/
-
   return FutureBuilder(
     future: menuProvider.loadData(),
     builder: (BuildContext context, AsyncSnapshot<List<dynamic>> snapshot) {

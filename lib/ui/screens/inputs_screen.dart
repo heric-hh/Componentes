@@ -9,6 +9,14 @@ class InputsScreen extends StatefulWidget {
 
 class _InputsScreenState extends State<InputsScreen> {
   String _userName = '';
+  String _userPassword = '';
+  String _userEmail = '';
+  String _email = '';
+  String _fecha = '';
+  final TextEditingController _inputFieldDataController = TextEditingController();
+  
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -19,7 +27,13 @@ class _InputsScreenState extends State<InputsScreen> {
         padding: EdgeInsets.symmetric(horizontal: 10, vertical: 20),
         children: [
           _crearEntradaNombre(),
+          const Divider(),
           _crearEntradaPassword(),
+          const Divider(),
+          _crearEntradaMail(),
+          const Divider(),
+          _crearEntradaFecha(context),
+
         ],
       ),
     );
@@ -48,7 +62,7 @@ class _InputsScreenState extends State<InputsScreen> {
       prefixIcon: const Icon(Icons.person),
       helperText: "",
       //prefix: const CircularProgressIndicator(),
-      icon: Icon(Icons.person),
+      //icon: Icon(Icons.person),
       iconColor: Colors.indigo
     ),
     onChanged: (valor) {
@@ -60,8 +74,7 @@ class _InputsScreenState extends State<InputsScreen> {
 
 Widget _crearEntradaPassword() {
   return TextField(
-    autofocus: true,
-    textCapitalization: TextCapitalization.words,
+    //textCapitalization: TextCapitalization.words,
     textAlign: TextAlign.center,
     style: const TextStyle(
       color: Colors.indigo,
@@ -81,16 +94,96 @@ Widget _crearEntradaPassword() {
       prefixIcon: const Icon(Icons.password),
       helperText: "Escribe tu contraseña",
       //prefix: const CircularProgressIndicator(),
-      icon: Icon(Icons.person),
+      //icon: Icon(Icons.person),
       iconColor: Colors.indigo
     ),
     obscureText: true,
     keyboardType: TextInputType.number,
     onChanged: (valor) {
-     _userName = valor;
-     print(_userName);
+     _userPassword = valor;
+     print(_userPassword);
     },
   );
 }
+
+Widget _crearEntradaMail() {
+  return TextField(
+    textAlign: TextAlign.center,
+    style: const TextStyle(
+      color: Colors.indigo,
+      fontWeight: FontWeight.bold,
+    ),
+    cursorColor: Colors.red,
+    cursorRadius: const Radius.circular(16),
+    // maxLines: null,
+    decoration: InputDecoration(
+      border: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(20),
+      ),
+      hintText: "Escribe tu email",
+      labelText: "email: ",
+      prefixIcon: const Icon(Icons.mail),
+      helperText: "Escribe tu email",
+      //prefix: const CircularProgressIndicator(),
+      //icon: Icon(Icons.person),
+      iconColor: Colors.indigo
+    ),
+    // obscureText: true,
+    keyboardType: TextInputType.emailAddress,
+    onChanged: (valor) {
+     _userEmail = valor;
+     print(_userEmail);
+    },
+  );
+}
+
+Widget _crearEntradaFecha(BuildContext context) {
+  return TextField(
+    enableInteractiveSelection: false,
+    textAlign: TextAlign.center,
+    style: const TextStyle(
+      color: Colors.indigo,
+      fontWeight: FontWeight.bold,
+    ),
+    cursorColor: Colors.red,
+    cursorRadius: const Radius.circular(16),
+    // maxLines: null,
+    decoration: InputDecoration(
+      border: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(20),
+      ),
+      hintText: "Escribe tu fecha de nacimiento",
+      labelText: "Fecha de nacimiento: ",
+      prefixIcon: const Icon(Icons.date_range),
+      helperText: "Escribe tu fecha de nacimiento",
+      //prefix: const CircularProgressIndicator(),
+      //icon: Icon(Icons.person),
+      iconColor: Colors.indigo
+    ),
+    // obscureText: true,
+    //keyboardType: TextInputType.datetime,
+    onTap: () {
+      Focus.of(context).requestFocus( FocusNode() );
+      _selectDate(context);
+    },
+  );
+}
+
+_selectDate(BuildContext context) async {
+  DateTime? picked = await showDatePicker(
+    context: context, 
+    initialDate: DateTime.now(), 
+    firstDate: DateTime(2018), 
+    lastDate: DateTime(2025),
+  );
+
+  if (picked != null) {
+    setState(() {
+      _fecha = picked.toString();
+      _inputFieldDataController.text = _fecha;
+    });
+  }
+}
+
 }
 
